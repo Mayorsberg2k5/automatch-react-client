@@ -1,87 +1,100 @@
-import React from 'react'
-import { FaInstagramSquare } from "react-icons/fa";
-import { FaFacebook } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaUserAlt } from "react-icons/fa";
-import { FaLock } from "react-icons/fa";
-import {useState} from "react";
+import React, { useState, useEffect } from 'react';
+import { FaUserAlt, FaLock, FaTwitter, FaFacebook, FaInstagramSquare } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-const Profile = () => {
+const Profile = ({ isLoggedIn, onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = () => {
-        // Retrieve username and password from localStorage
-        const storedUsername = localStorage.getItem('username');
-        const storedPassword = localStorage.getItem('password');
-    
-        // Check if entered credentials match stored credentials
-        if (username === storedUsername && password === storedPassword) {
-          alert('Login successful!');
-          navigate('/login');
-          // Redirect to dashboard or another page
-        } else {
-          alert('Invalid username or password');
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate("/Form");
         }
-      };
+    }, [isLoggedIn, navigate]);
+
+    const handleLogin = (e) => {
+        e.preventDefault(); // Prevent the form from submitting
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const user = users.find(user => user.username === username && user.password === password);
+
+        if (user) {
+            onLogin(true);
+            localStorage.setItem('isLoggedIn', 'true');
+            navigate('/Form');
+        } else {
+            alert('Invalid username or password');
+        }
+    };
 
     return (
-        <div class="logincontainer">
-        <div class="screen">
-            <div class="screen__content">
-                <form class="login" onSubmit={handleLogin}>
+        <div className="logincontainer">
+            <div className="screen">
+                <div className="screen__content">
+                    <form className="login" onSubmit={handleLogin}>
+                        <div className="Username-Email">
+                            <i className="login__icon"> <FaUserAlt /> </i>
+                            <label htmlFor="userName"></label>
+                            <input
+                                type="text"
+                                className="login__input"
+                                placeholder="User name"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </div>
 
-                    <div class="Username-Email">
-                        <i class="login__icon"> <FaUserAlt /> </i>
-                        <label for="userName"></label>
-                        <input type="text" class="login__input" placeholder="User name" value={username} onChange={(e) => setUsername(e.target.value)} />
-                    </div>
+                        <div className="Password">
+                            <i className="login__icon"> <FaLock /></i>
+                            <label htmlFor="password"></label>
+                            <input
+                                type="password"
+                                className="login__input"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
 
-                    <div class="Password">
-                        <i class="login__icon"> <FaLock /></i>
-                        <label for="password"></label>
-                        <input type="password" class="login__input" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        <div className="remember">
+                            <label className="remembercheckbox">
+                                <input type="checkbox" />
+                                <div> Remember me</div>
+                            </label>
+                            <a href="#"> Forgot Password</a>
+                        </div>
+                        <button className="button login__submit" type="submit">
+                            <span className="button__text">LOGIN</span>
+                            <i className="button__icon fas fa-chevron-right"></i>
+                        </button>
+                    </form>
+                    <div className="social-login">
+                        <h3>log in via</h3>
+                        <div className="social-icons">
+                            <a href="#" className="social-login__icon fab fa-instagram">
+                                <FaInstagramSquare />
+                            </a>
+                            <a href="#" className="social-login__icon fab fa-facebook">
+                                <FaFacebook />
+                            </a>
+                            <a href="#" className="social-login__icon fab fa-twitter">
+                                <FaTwitter />
+                            </a>
+                        </div>
+                        <Link to="/register" className="register">Register Here</Link>
                     </div>
-                    
-                    <div class="remember">
-                
-                    <label class = "remembercheckbox">                     
-                        <input type = "checkbox" check="checked" /> 
-                        <div> Remember me</div>
-                    </label>
-                    
-                    <a href= "#" > Forgot Password</a>
+                </div>
 
-                    </div>
-                    <button class="button login__submit" type="submit">
-                        <span class="button__text">LOGIN</span>
-                        <i class="button__icon fas fa-chevron-right"></i>
-                    </button>
-                    
-                </form>
-                <div class="social-login">
-                    <h3>log in via</h3>
-                    <div class="social-icons">
-                        <a href="#" class="social-login__icon fab fa-instagram"><FaInstagramSquare /> </a>
-                        <a href="#" class="social-login__icon fab fa-facebook"><FaFacebook /></a>
-                        <a href="#" class="social-login__icon fab fa-twitter"> <FaTwitter /></a>
-                    </div>
-                    <Link to="/Register" class="register">Register Here</Link>
+                <div className="screen__background">
+                    <span className="screen__background__shape screen__background__shape4"></span>
+                    <span className="screen__background__shape screen__background__shape3"></span>
+                    <span className="screen__background__shape screen__background__shape2"></span>
+                    <span className="screen__background__shape screen__background__shape1"></span>
                 </div>
             </div>
-
-            <div class="screen__background">
-                <span class="screen__background__shape screen__background__shape4"></span>
-                <span class="screen__background__shape screen__background__shape3"></span>		
-                <span class="screen__background__shape screen__background__shape2"></span>
-                <span class="screen__background__shape screen__background__shape1"></span>
-            </div>		
         </div>
-    </div>
-    )
-  }
+    );
+};
 
-  export default Profile
+export default Profile;

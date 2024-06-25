@@ -1013,3 +1013,5 @@ transition: .2s;
   margin-bottom: 10rem;
   color: white;
 }
+
+iframe#webpack-dev-server-client-overlay{display:none!important}

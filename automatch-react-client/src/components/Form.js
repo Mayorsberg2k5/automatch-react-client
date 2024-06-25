@@ -1,119 +1,92 @@
-
-import { FaChevronDown } from "react-icons/fa";
-import React from 'react'
-import { useNavigate } from "react-router-dom";
-import  { useEffect }  from 'react'
-import  { useState }  from "react"
-
-
+import React, { useState } from 'react';
+import { FaChevronDown } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { cars } from '../data/data'; // Assuming data is imported from data.js
 
 const Form = () => {
-const navigate = useNavigate();
-const [search, setSearch] = useState([])
+  const navigate = useNavigate();
 
-
-const submitHandler  = (e) => {
-  e.preventDefault();
-  const body = {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const body = {
       Feature: e.target.Feature.value,
       Type: e.target.Type.value,
       Budget: e.target.Budget.value,
-  }
-  // useEffect(() => {
-    fetch("http://localhost:8080/api/search/all", {
-      method: "POST",
-      body: JSON.stringify(body),
-    })
-    .then((response) => response.json())
-    .then((search) => {setSearch(search.data)})
-    .catch((error) => console.log(error));
-  // }, []);
+    };
 
-  } 
- 
+    // Find the car that matches the form inputs
+    const foundCar = cars.find(car =>
+      car.Feature === body.Feature &&
+      car.Type === body.Type &&
+      car.Budget === body.Budget
+    );
 
-//     fetch("http://localhost:8080/api/search/create/new", {
-//         method: 'POST',
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(body),
-//         })
-//         .then((response) => response.json())
-//         .then((result) => {console.log("you have successfully created an entry")})
-//         .catch((error) => {console.log(error);});
+    if (foundCar) {
+      // Navigate to result page with parameters
+      navigate(`/result/${foundCar.Make}/${foundCar.Model}`);
+    } else {
+      // Handle case where no matching car is found
+      alert("No matching car found for the selected criteria");
+    }
+  };
 
-//         console.log(body);
-// }
-
-
-
-  
-    return (
-<div className="pagebackground">
-  <form onSubmit = {submitHandler}>
-    
-    <div className="type_container"> 
-            <select className="select-box"
-            name="Feature" 
-            id="Feature" 
-            required>
-                <option value="" default disabled>Select a feature</option>
-                <option value="Affordability">Affordability</option>
-                <option value="Luxury/Look">Luxury/Look</option>
-                <option value="Fuel-Efficient">Fuel-Efficent</option>
-                <option value="Electric">Electric</option>            
-            </select>
-            <div className ="icon-container"> 
+  return (
+    <div className="pagebackground">
+      <form onSubmit={handleSubmit}>
+        
+        {/* Feature selection */}
+        <div className="type_container"> 
+          <select className="select-box" name="Feature" id="Feature" required>
+            <option value="" disabled>Select a feature</option>
+            <option value="Affordability">Affordability</option>
+            <option value="Luxury/Look">Luxury/Look</option>
+            <option value="Fuel-Efficient">Fuel-Efficient</option>
+            <option value="Electric">Electric</option>            
+          </select>
+          <div className="icon-container"> 
             <FaChevronDown />
-            </div>
-    </div>
+          </div>
+        </div>
 
-    <div className="type_container1"> 
-            <select className="select-box"
-            name="Type" 
-            id="Type" 
-            required>
-                <option value="" default disabled> Select a car type</option>
-                <option value="Sedan">Sedan</option>
-                <option value="SUV">SUV</option>
-                <option value="All-Terrain">All-Terrain</option>
-                <option value="Sport">Sport</option> 
-                <option value="Truck">Truck</option>               
-            </select>
-            <div className ="icon-container1"> 
+        {/* Car type selection */}
+        <div className="type_container1"> 
+          <select className="select-box" name="Type" id="Type" required>
+            <option value="" disabled>Select a car type</option>
+            <option value="Sedan">Sedan</option>
+            <option value="SUV">SUV</option>
+            <option value="All-Terrain">All-Terrain</option>
+            <option value="Sport">Sport</option> 
+            <option value="Truck">Truck</option>               
+          </select>
+          <div className="icon-container1"> 
             <FaChevronDown />
-            </div>
-    </div>
+          </div>
+        </div>
 
-    <div className="type_container1"> 
-            <select className="select-box"
-            name="Budget" 
-            id="Budget" 
-            required>
-                <option value="" default disabled> Select your budget</option>
-                <option value="$20,001 - $25,000">$20,001 - $25,000</option>
-                <option value="$25,001 - $30,000">$25,001 - $30,000</option>
-                <option value="$30,001 - $49,999">$30,001 - $49,999</option> 
-                <option value="$50,000+">$50,000+</option>                
-            </select>
-            <div className ="icon-container1"> 
+        {/* Budget selection */}
+        <div className="type_container1"> 
+          <select className="select-box" name="Budget" id="Budget" required>
+            <option value="" disabled>Select your budget</option>
+            <option value="$20,001 - $25,000">$20,001 - $25,000</option>
+            <option value="$25,001 - $30,000">$25,001 - $30,000</option>
+            <option value="$30,001 - $49,999">$30,001 - $49,999</option> 
+            <option value="$50,000+">$50,000+</option>                
+          </select>
+          <div className="icon-container1"> 
             <FaChevronDown />
-            </div>
+          </div>
+        </div>
+
+        {/* Submit button */}
+        <div>
+          <button type="submit" className="formSubmit">
+            Submit
+          </button>
+        </div>
+
+      </form>
     </div>
+  );
+};
 
-    <div>
-      <input 
-      type="Submit"
-      className="formSubmit">
-      </input>
-    </div>
-
-  </form>
-
-</div>
-
-    )
-  }
-
-  export default Form
+export default Form

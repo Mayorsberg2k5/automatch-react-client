@@ -1,4 +1,4 @@
-const cars = [
+export const cars = [
 
     // Electic Sedans 
 
@@ -469,5 +469,3 @@ const cars = [
     },
 
 ]
-
-module.exports = cars;

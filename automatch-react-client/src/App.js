@@ -12,7 +12,6 @@ import Result from "./components/Result";
 
 function App() {
 
-
   
   return (
     <div className="App">
@@ -24,6 +23,7 @@ function App() {
           <Route path="/form" element={<Form />} />
           <Route path="/howitworks" element={<Howitworks />} />
           <Route path="/news" element={<News />} />
+          <Route path="/result/:make/:model" element={<Result />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/register" element={<Register />} />
           <Route path="/result" element={<Result />} />

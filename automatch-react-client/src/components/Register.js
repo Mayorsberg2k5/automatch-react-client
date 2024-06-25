@@ -5,16 +5,29 @@ import { FaChevronRight } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
+import {useState} from "react";
+
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
+    const handleRegister = () => {
+        // Validate and store username and password in localStorage
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
+        alert('Registration successful!');
+        navigate("/Profile")
 
+      };
 
     return (
         <div className="registercontainer">
         <div className="screen">
             <div className="screen__content">
-                <form className="login">
+                <form className="login" onSubmit={handleRegister}>
                     <div className="login__field">
                         <i className="login__icon"> <FaUserAlt /> </i>
                         <label htmlFor="fistName"></label>
@@ -26,17 +39,17 @@ const Register = () => {
                         <input type="text" className="login__input" placeholder="Last Name" />
                     </div>
                     <div className="login__field">
-                        <label htmlFor="Email"></label>
+                        <label htmlFor="Username"></label>
                         <i className="login__icon"> <FaUserAlt /></i>
-                        <input type="text" className="login__input" placeholder="Email" />
+                        <input type="text" className="login__input" placeholder="Username" value={username}onChange={(e) => setUsername(e.target.value)}/>
                     </div>
                     <div className="login__field">
                         <label htmlFor="Password"></label>
                         <i className="login__icon"> <FaLock /></i>
-                        <input type="password" className="login__input" placeholder="Password" />
+                        <input type="password" className="login__input" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </div>
                     <a href="./Profile.html">
-                        <button className="button register__submit">
+                        <button type="submit" className="button register__submit">
                             <span className="button__text">SIGN UP</span>
                             <i className="button__icon"> <FaChevronRight /> </i>
                         </button>

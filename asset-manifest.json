@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.94a15607.css",
+    "main.js": "/static/js/main.0e0ca05d.js",
+    "static/media/swanway.jpg": "/static/media/swanway.829d4b633d3f3b569f06.jpg",
+    "index.html": "/index.html",
+    "main.94a15607.css.map": "/static/css/main.94a15607.css.map",
+    "main.0e0ca05d.js.map": "/static/js/main.0e0ca05d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.94a15607.css",
+    "static/js/main.0e0ca05d.js"
+  ]
+}

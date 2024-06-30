@@ -9,12 +9,6 @@ const Form = ({ onSearch, isLoggedIn  }) => {
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
 
-  useEffect(() => {
-    // Load previous searches from local storage
-    const storedSearches = JSON.parse(localStorage.getItem('previousSearches')) || [];
-    setPreviousSearches(storedSearches);
-  }, []);
-
   const submitHandler = (e) => {
     e.preventDefault();
     const body = {
@@ -23,7 +17,7 @@ const Form = ({ onSearch, isLoggedIn  }) => {
       Budget: e.target.Budget.value,
     };
 
-    // Find the car that matches the form inputs
+    // Find the car that matches based on the form inputs
     const foundCar = cars.find(car =>
       car.Feature === body.Feature &&
       car.Type === body.Type &&
@@ -33,7 +27,7 @@ const Form = ({ onSearch, isLoggedIn  }) => {
     if (foundCar) {
       const searchResult = { make: foundCar.Make, model: foundCar.Model, ...body };
 
-      // Save the search result to local storage
+      // Save the search result to my local storage
       const updatedSearches = [...previousSearches, searchResult];
       localStorage.setItem('previousSearches', JSON.stringify(updatedSearches));
       setPreviousSearches(updatedSearches);
@@ -41,26 +35,35 @@ const Form = ({ onSearch, isLoggedIn  }) => {
       onSearch(searchResult);
     } else {
       navigate("/Result")
-      // Handle case where no matching car is found
+      // Handle case if it doesn't find a car
       console.log("No matching car found for the selected criteria");
     }
   };
+
+
+  useEffect(() => {
+    // Load previous searches from local storage
+    const storedSearches = JSON.parse(localStorage.getItem('previousSearches')) || [];
+    setPreviousSearches(storedSearches);
+  }, []);
 
   const handlePreviousSearchClick = (search) => {
     // Set the make and model from the selected search
     setMake(search.make);
     setModel(search.model);
 
-    // Remove the selected search from local storage
+
+
+    // Remove the selected search from the local storage
     const updatedPreviousSearches = previousSearches.filter(item => item !== search);
     localStorage.setItem('previousSearches', JSON.stringify(updatedPreviousSearches));
     window.location.reload(); 
   };
 
   return (
-    <div className="pagebackground">
+    <div>
       <form onSubmit={submitHandler}>
-        {/* Previous Searches */}
+        {/* Div for previous searches Previous Searches */}
         <div>
 
         {isLoggedIn ? (

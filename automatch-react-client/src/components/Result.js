@@ -10,8 +10,9 @@ const navigate = useNavigate();
   if (!searchResult) {
     return <div className="resultspage">
     
-      <div className="resultsbox">Loading..... No matching car found for the selected criteria 
-        </div>
+      <div 
+        className="result">Loading..... No matching car found for the selected criteria 
+      </div>
 
         </div>
   }

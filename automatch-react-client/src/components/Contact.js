@@ -14,7 +14,7 @@ const Contact = () => {
     
     return (
 
-<div class="pagebackground">
+<div>
     <div className="contactcontainer">
     <h1> Connect With Us</h1>
     <p>Drop us a line through the form below and we will get back to you</p>
